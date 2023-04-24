@@ -1,4 +1,5 @@
 #include "libft.h"
+#include <stdlib.h>
 
 static void	ft_allocate(char **tab, char const *s, char sep)
 {
