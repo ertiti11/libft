@@ -13,14 +13,13 @@
 #include "libft.h"
 #include <stdlib.h>
 
-char *ft_strjoin(char const *s1, char const *s2){
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*new;
+	size_t	len1;
+	size_t	len2;
 
-
-    char *new;
-    size_t len1;
-    size_t len2;
-
-    if (!s1 && !s2)
+	if (!s1 && !s2)
 		return (ft_strdup(""));
 	if (s1 && !s2)
 		return (ft_strdup(s1));
@@ -34,9 +33,4 @@ char *ft_strjoin(char const *s1, char const *s2){
 	ft_strlcpy(new, s1, len1 + 1);
 	ft_strlcat(new, s2, len1 + len2 + 1);
 	return (new);
-
-
-
-
-
 }

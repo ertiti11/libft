@@ -3,69 +3,96 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprieto- <aprieto-@42malaga.student.com    +#+  +:+       +#+        */
+/*   By: aprieto- <aprieto-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 09:09:10 by aprieto-          #+#    #+#             */
-/*   Updated: 2023/04/26 09:09:11 by aprieto-         ###   ########.fr       */
+/*   Updated: 2023/04/26 20:22:06 by aprieto-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <stdlib.h>
+#include <stdbool.h>
+#include "libft.h"
 
-static void	ft_allocate(char **tab, char const *s, char sep)
+
+static char	**free_tab(char **result)
 {
-	char		**tab_p;
-	char const	*tmp;
+	int	i;
 
-	tmp = s;
-	tab_p = tab;
-	while (*tmp)
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (result[i])
 	{
-		while (*s == sep)
-			++s;
-		tmp = s;
-		while (*tmp && *tmp != sep)
-			++tmp;
-		if (*tmp == sep || tmp > s)
+		free(result[i]);
+		result[i] = NULL;
+		i++;
+	}
+	free (result);
+	return (NULL);
+}
+
+static int	get_word_end(const char *str, char separator, int i)
+{
+	while (str[i] && str[i] != separator)
+		i++;
+	return (i);
+}
+
+static bool	fill_result(char **result, const char *str, char separator)
+{
+	int	i;
+	int	word_end;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != separator)
 		{
-			*tab_p = ft_substr(s, 0, tmp - s);
-			s = tmp;
-			++tab_p;
+			word_end = get_word_end(str, separator, i);
+			*result = ft_calloc(sizeof(**result), word_end - i + 1);
+			if (!*result)
+				return (false);
+			ft_memcpy(*result, str + i, word_end - i);
+			result++;
+			i = word_end - 1;
 		}
+		i++;
 	}
-	*tab_p = NULL;
+	return (true);
 }
 
-static int	ft_count_words(char const *s, char sep)
+static int	count_words(const char *str, char separator)
 {
-	int	word_count;
+	int	i;
+	int	nb_words;
 
-	word_count = 0;
-	while (*s)
+	i = 0;
+	nb_words = 0;
+	while (str[i] == separator)
+		i++;
+	while (str[i])
 	{
-		while (*s == sep)
-			++s;
-		if (*s)
-			++word_count;
-		while (*s && *s != sep)
-			++s;
+		if (str[i] != separator)
+		{
+			nb_words++;
+			while (str[i] && str[i] != separator)
+				i++;
+		}
+		if (str[i])
+			i++;
 	}
-	return (word_count);
+	return (nb_words);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(const char *str, char separator)
 {
-	char	**new;
-	int		size;
+	char	**result;
 
-	if (!s)
+	result = ft_calloc(sizeof(*result), count_words(str, separator) + 1);
+	if (!result)
 		return (NULL);
-	size = ft_count_words(s, c);
-	new = (char **)malloc(sizeof(char *) * (size + 1));
-	if (!new)
-		return (NULL);
-	ft_allocate(new, s, c);
-	return (new);
+	if (!fill_result(result, str, separator))
+		return (free_tab(result));
+	return (result);
 }
-

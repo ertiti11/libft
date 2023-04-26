@@ -3,59 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprieto- <aprieto-@42malaga.student.com    +#+  +:+       +#+        */
+/*   By: aprieto- <aprieto-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 09:09:03 by aprieto-          #+#    #+#             */
-/*   Updated: 2023/04/26 09:09:04 by aprieto-         ###   ########.fr       */
+/*   Updated: 2023/04/26 17:59:10 by aprieto-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int
-	ft_abs(int nbr)
-{
-	return ((nbr < 0) ? -nbr : nbr);
-}
+#include "libft.h"
 
-static void
-	ft_strrev(char *str)
+static int	ft_nbrlen(long n)
 {
-	size_t	length;
-	size_t	i;
-	char	tmp;
+	int		i;
 
-	length = ft_strlen(str);
-	i = 0;
-	while (i < length / 2)
+	i = 1;
+	if (n < 0)
 	{
-		tmp = str[i];
-		str[i] = str[length - i - 1];
-		str[length - i - 1] = tmp;
+		n *= -1;
 		i++;
 	}
+	while (n > 9)
+	{
+		n /= 10;
+		i++;
+	}
+	return (i);
 }
 
-char
-	*ft_itoa(int n)
+static void	ft_putnbr_stock(long n, char *str, int *i)
+{
+	if (n > 9)
+	{
+		ft_putnbr_stock(n / 10, str, i);
+		ft_putnbr_stock(n % 10, str, i);
+	}
+	else
+		str[(*i)++] = n + '0';
+}
+
+char	*ft_itoa(int n)
 {
 	char	*str;
-	int		is_neg;
-	size_t	length;
+	int		i;
+	long	nbr;
 
-	is_neg = (n < 0);
-	if (!(str = ft_calloc(11 + is_neg, sizeof(*str))))
+	nbr = n;
+	str = malloc(sizeof(char) * (ft_nbrlen(nbr) + 1));
+	if (str == NULL)
 		return (NULL);
-	if (n == 0)
-		str[0] = '0';
-	length = 0;
-	while (n != 0)
+	i = 0;
+	if (nbr < 0)
 	{
-		str[length++] = '0' + ft_abs(n % 10);
-		n = (n / 10);
+		str[i++] = '-';
+		nbr *= -1;
 	}
-	if (is_neg)
-		str[length] = '-';
-	ft_strrev(str);
+	ft_putnbr_stock(nbr, str, &i);
+	str[i] = '\0';
 	return (str);
 }

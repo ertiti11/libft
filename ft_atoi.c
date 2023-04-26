@@ -24,8 +24,8 @@ static int	my_isspace(char c)
 
 int	ft_atoi(const char *str)
 {
-	int res;
-	int negative;
+	int	res;
+	int	negative;
 
 	negative = 1;
 	res = 0;

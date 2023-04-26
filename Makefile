@@ -1,25 +1,28 @@
-# Nombre de la librería
-LIBNAME=libft
+NAME = libft.a
 
-#Archivos fuente
-SRCS = ft_atoi.c ft_isalnum.c ft_calloc.c ft_substr.c ft_strtrim.c ft_itoa.c ft_split.c ft_strjoin.c ft_strdup.c ft_isascii.c ft_isprint.c ft_memcmp.c ft_memmove.c ft_strchr.c ft_strlcat.c ft_strlen.c ft_strrchr.c ft_toupper.c ft_bzero.c ft_isalpha.c ft_isdigit.c ft_memchr.c ft_memcpy.c ft_memset.c ft_strcmp.c ft_strlcpy.c ft_strnstr.c ft_tolower.c
+CC = gcc
 
-#Archivos objeto
-OBJS=$(SRCS:.c=.o)
+CFLAGS = -Wall -Werror -Wextra
 
-CFLAGS=-Wall -Werror -Wextra
+LIB = ar rcs
 
-# Regla principal
-all: $(OBJS)
-	ar rcs $(LIBNAME).a $(OBJS)
+SOURCES = ft_isalpha.c ft_isalnum.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_tolower.c ft_toupper.c ft_strchr.c ft_strlen.c ft_strrchr.c ft_strnstr.c ft_strlcpy.c ft_strlcat.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_bzero.c ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c
 
-# Regla para compilar archivos fuente
-%.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+OBJ = $(SOURCES:.c=.o)
 
-# Regla para limpiar archivos objeto y librería
+RM = rm -f
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(LIB) $(NAME) $(OBJ)
+
 clean:
-	rm -f $(OBJS) 
+	$(RM) $(OBJ)
 
-fclean:
-	rm -f $(OBJS) $(LIBNAME).a
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
