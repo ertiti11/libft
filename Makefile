@@ -19,4 +19,7 @@ all: $(OBJS)
 
 # Regla para limpiar archivos objeto y librería
 clean:
+	rm -f $(OBJS) 
+
+fclean:
 	rm -f $(OBJS) $(LIBNAME).a
