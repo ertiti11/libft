@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aprieto- <aprieto-@42malaga.student.com    +#+  +:+       +#+        */
+/*   By: aprieto- <aprieto-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 09:09:24 by aprieto-          #+#    #+#             */
-/*   Updated: 2023/04/26 09:09:25 by aprieto-         ###   ########.fr       */
+/*   Updated: 2023/06/08 18:16:04 by aprieto-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	char	*ptr;
-	char	*ptr2;
 	int		i;
+	char	*ret;
 
-	ptr = (char *)s;
-	ptr2 = 0;
+	ret = NULL;
 	i = 0;
-	while (*(ptr + i))
+	while (s[i])
 	{
-		if (*(ptr + i) == c)
-			ptr2 = ptr + i;
+		if (s[i] == (char)c)
+			ret = &((char *)s)[i];
 		i++;
 	}
+	if (s[i] == (char)c)
+		ret = &((char *)s)[i];
 	if (c == '\0')
-		return (ptr + i);
-	return (ptr2);
+		ret = &((char *)s)[i];
+	return (ret);
 }

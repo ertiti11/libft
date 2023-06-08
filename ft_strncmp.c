@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aprieto- <aprieto-@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 09:09:18 by aprieto-          #+#    #+#             */
-/*   Updated: 2023/06/08 18:13:43 by aprieto-         ###   ########.fr       */
+/*   Created: 2023/06/08 16:40:49 by aprieto-          #+#    #+#             */
+/*   Updated: 2023/06/08 18:29:59 by aprieto-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned int	i;
-	size_t			x;
+	size_t	j;
 
-	x = ft_strlen(src);
-	i = 0;
-	if (size != 0)
+	j = 0;
+	while (j < n && (s1[j] || s2[j]))
 	{
-		while (src[i] != '\0' && i < size -1)
-		{
-		dest[i] = src[i];
-		i++;
-		}
-	dest[i] = '\0';
+		if (s1[j] != s2[j])
+			return (((unsigned char *)s1)[j] - ((unsigned char *)s2)[j]);
+		j++;
 	}
-	return (x);
+	return (0);
 }
